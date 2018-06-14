@@ -1,0 +1,18 @@
+module: ietf-wson-topology
+  augment /nd:networks/nd:network/nd:network-types/tet:te-topology:
+    +--rw wson-topology!
+  augment /nd:networks/nd:network/nd:node/tet:te/tet:te-node-attributes/tet:connectivity-matrices/tet:connectivity-matrix:
+    +--rw wavelength-availability-range?   te-wson-types:wavelength-range-type
+  augment /nd:networks/nd:network/lnk:link/tet:te/tet:te-link-attributes:
+    +--rw channel-num?                 int32
+    +--rw first-channel-frequency?     decimal64
+    +--rw channel-spacing?             decimal64
+    +--rw available-wavelength-info* [priority]
+       +--rw priority                         uint8
+       +--rw wavelength-availability-range?   te-wson-types:wavelength-range-type
+  augment /nd:networks/nd:network/nd:node/tet:te/tet:te-node-attributes:
+    +--rw wson-node
+       +--rw node-type?   identityref
+  augment /nd:networks/nd:network/nd:node/tet:te/tet:tunnel-termination-point:
+    +--rw available-operational-mode*   te-wson-types:operational-mode
+    +--rw operational-mode?             te-wson-types:operational-mode
