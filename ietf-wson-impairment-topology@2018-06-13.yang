@@ -1,0 +1,370 @@
+module   ietf-wson-impairment-topology {
+//TODO: FIXME
+      //yang-version 1.1;
+
+      namespace "urn:ietf:params:xml:ns:yang:ietf-wson-impairment-topology";
+
+      prefix "wson-imp";
+
+       import ietf-network {
+          prefix "nd";
+       }
+
+      import ietf-network-topology {
+        prefix "lnk";
+      }
+
+      import ietf-inet-types {
+      prefix "inet";
+      }
+
+      import ietf-te-topology {
+      prefix "tet";
+      }
+	  
+	  import ietf-wson-topology {
+	  prefix "wson";
+	  }
+	  
+      import ietf-te-wson-types { //Modified
+      prefix "te-wson-types";
+      }
+
+      //NOT NEEDED
+      /*import ietf-transport-types {
+      prefix "tran-types";
+      } */
+
+      organization
+            "IETF CCAMP Working Group";
+
+      contact
+            "Editor:   Young Lee  <leeyoung@huawei.com>";
+
+      description
+            "This module contains a collection of YANG definitions for
+            Impairment-aware RWA WSON.
+
+            Copyright (c) 2018 IETF Trust and the persons identified as
+            authors of the code.  All rights reserved.
+
+            Redistribution and use in source and binary forms, with or
+            without modification, is permitted pursuant to, and subject
+            to the license terms contained in, the Simplified BSD
+            License set forth in Section 4.c of the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (http://trustee.ietf.org/license-info).";
+
+      revision 2018-05-14 {
+            description
+                  "version 0.";
+
+            reference
+                  "RFC XXX: A Yang Data Model for Impairment-aware WSON Optical Networks ";
+      }
+
+      typedef wson-impairment-topology-id {
+            type inet:uri;
+            description
+                  "The WSON Impairment-aware Topology ID";
+      }
+      
+	  typedef modulation {
+         type enumeration {
+            enum QPSK {
+                description 
+                "QPSK (Quadrature Phase Shift Keying) modulation";
+                }
+            enum DP_QPSK {
+                description "DP-QPSK (Dual Polarization Quadrature
+                Phase Shift Keying) modulation";
+                }
+            enum QAM16 {
+                description "QAM16 (Quadrature Amplitude Modulation
+                - 4 bits per symbol) modulation";
+                }
+            enum DP_QAM16 {
+                description "DP-QAM16 (Dual Polarization 
+                Quadrature Amplitude Modulation - 4 bits per
+                symbol) modulation";
+                }
+            enum DC_DP_QAM16 {
+                description "DC DP-QAM16 (Dual Polarization
+                Quadrature Amplitude Modulation - 4 bits per
+                symbol) modulation";
+                }
+         }
+         description 
+            "Enumeration that defines the type of wave modulation";
+   }
+
+   typedef FEC {
+         type enumeration {
+            enum reed-solomon {
+                description "Reed-Solomon error correction";
+            }
+            enum hamming-code{
+                description "Hamming Code error correction";
+            }
+            enum golay{
+                description "Golay error correction";
+            }
+         }
+         description "Enumeration that defines the type of 
+         Forward Error Correction";
+	}
+	
+	  grouping transponder-attributes {
+		description "Configuration of an optical transponder";
+		leaf-list available-modulation {
+			type modulation;
+			config false;
+			description 
+				"List determining all the available modulations";
+		}
+		leaf modulation-enabled {
+			type boolean;
+			config false; 
+			description 
+				"Determines whether the modulation is enabled or not";
+		}
+		leaf modulation-type {
+			type modulation;
+			description 
+				"Modulation type of the transponder";
+		}
+		leaf-list available-FEC {
+			type FEC;
+			config false;
+			description "List determining all the available FEC";
+		}
+		leaf FEC-enabled {
+			type boolean;
+			config false; 
+			description 
+				"Determines whether the FEC is enabled or not";
+		}
+		leaf FEC-type {
+			type FEC;
+			description 
+				"FEC type of the transponder";
+	    }
+		leaf FEC-code-rate {
+	                 type decimal64 {
+	                       fraction-digits 8;
+			       range "0..max";
+	                 }
+			description "FEC-code-rate";
+		}
+		leaf FEC-threshold {
+	                 type decimal64 {
+	                       fraction-digits 8;
+			       range "0..max";
+	                 }
+			config false;
+			description "Threshold on the BER, for which FEC is able to correct errors";
+		}
+	  }
+	  
+	  grouping sliceable-transponder-attributes {
+		description
+			"Configuration of a sliceable transponder.";
+		list transponder-list {
+			key "carrier-id";
+			description "List of carriers";
+			leaf carrier-id {
+				type uint32;
+				description "Identifier of the carrier";
+            }
+        }        
+      }
+	  
+      grouping wson-impairment-topology-type {
+            description "wson-impairment-topology type";
+            container wson-impairment-topology {
+                  presence "indicates an impairment-aware topology of wson";
+                  description
+                        "Container to identify impairment-aware wson topology type";
+                  }
+      }
+
+      grouping wson-node-attributes {
+            description "WSON node attributes";
+            container wson-node {
+                  description "WSON node attrtibutes.";
+                  leaf node-type {
+                        type identityref {
+                        base te-wson-types:wson-node-type;
+                        }
+                        description "WSON node type.";
+                  }
+            }
+      }
+
+
+      grouping wson-link-attributes {
+            description "WSON link attributes with impairment data";
+
+            leaf bit-rate {
+                 type decimal64 {
+                       fraction-digits 8;
+					   range "0..max";
+                 }
+                 units "Gbit/s";
+                 description "Gross bit rate";
+            }
+
+    container frequency-slot {
+      description
+        "The frequency range allocated to a slot
+        within the flexible grid and unavailable to other slots.  A
+        frequency slot is defined by its nominal central frequency and its
+        slot width.";
+
+      leaf n {
+        description
+          "n gives the nominal central frequency (ncf) using the following formula: 
+          ncf = 193.1THz + n x nominal-central-frequency-granularity[THz].";
+        type int16;
+        mandatory true;
+      }//leaf n
+
+      leaf m {
+        description
+          "m gives the slot width. A slot width is constrained to be 
+          m x slot-width-granularity";
+        type int16 {
+          range "1..max";
+        }
+        mandatory true;
+      }//leaf m
+    }//container frequency-slot
+			
+            leaf power {
+                 type int32;
+				 units "dBm";
+				 config false; 
+                 description "Input Power Level of the receiver side of the link";
+            }
+            leaf pmd {
+                 type decimal64 {
+                       fraction-digits 8;
+					   range "0..max";
+                 }
+                 units "ps/(km)^0.5";
+				 config false; 
+                 description "Polarization Mode Dispersion";
+            }
+            leaf cd {
+                 type decimal64 {
+                       fraction-digits 5;
+                 }
+                 units "ps/nm/km";
+				 config false; 
+                 description "Cromatic Dispersion";
+            }
+			leaf osnr {
+				 type decimal64 {
+					fraction-digits 5;
+				 }
+				 units "dB";
+				 config false; 
+				 description "osnr"; 
+			}
+			leaf q-factor {
+				 type decimal64 {
+					fraction-digits 5;
+				 }
+				 units "dB";
+				 config false; 
+				 description "q-factor"; 
+			}
+			leaf BER {
+				type decimal64 {
+					fraction-digits 18;
+					range "0..max";
+				}
+				config false;
+				description "BER";
+			}
+      }
+	  
+
+      grouping wson-ttp-attributes {
+            description "WSON tunnel termination point (e.g.
+tranponder)
+            attributes";
+            leaf-list available-operational-mode {
+               type te-wson-types:operational-mode;
+               description "List of all vendor-specific supported
+               mode identifiers";
+            }
+
+            leaf operational-mode {
+               type te-wson-types:operational-mode;
+               description "Vendor-specific mode identifier";
+            }
+      }
+
+   /* AUGMENTS */
+
+      augment "/nd:networks/nd:network/nd:network-types"
+		 + "/tet:te-topology" {
+               description "wson-impairment topology augmented";
+               uses wson-impairment-topology-type;
+         }
+
+
+         augment "/nd:networks/nd:network/lnk:link/tet:te"
+                     + "/tet:te-link-attributes"   {
+           when "/nd:networks/nd:network/nd:network-types"
+                     +"/tet:te-topology/wson-imp:wson-impairment-topology" {
+                     description
+                           "This augment is only valid for WSON Impairment.";
+               }
+               description "WSON Link augmentation for impairment data.";
+
+               uses wson-link-attributes;
+         }
+
+         
+         augment "/nd:networks/nd:network/nd:node/tet:te"
+                 + "/tet:te-node-attributes" {
+               when "/nd:networks/nd:network/nd:network-types"
+                     +"/tet:te-topology/wson:wson-topology" {
+                     description
+                           "This augment is only valid for WSON.";
+               }
+               description "WSON Node augmentation.";
+
+               uses wson-node-attributes;
+         }
+
+
+         augment "/nd:networks/nd:network/nd:node/tet:te"
+                 + "/tet:tunnel-termination-point" {
+           when "/nd:networks/nd:network/nd:network-types"
+                     +"/tet:te-topology/wson-imp:wson-impairment-topology" {
+                     description
+                           "This augment is only valid for Impairment WSON with non-sliceable transponder model";
+               }
+               description "WSON tunnel termination point
+   augmentation for non-sliceabletransponder model.";
+
+               uses wson-ttp-attributes;
+			   uses transponder-attributes; 
+         }
+
+		 augment "/nd:networks/nd:network/nd:node/tet:te"
+                 + "/tet:tunnel-termination-point" {
+           when "/nd:networks/nd:network/nd:network-types"
+                     +"/tet:te-topology/wson-imp:wson-impairment-topology" {
+                     description
+                           "This augment is only valid for Impairment WSON with sliceable transponder model";
+               }
+               description "WSON tunnel termination point
+   augmentation for sliceabletransponder model.";
+              
+			   uses sliceable-transponder-attributes; 
+         }
+   }

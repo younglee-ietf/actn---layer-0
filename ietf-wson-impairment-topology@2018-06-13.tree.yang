@@ -1,0 +1,31 @@
+module: ietf-wson-impairment-topology
+  augment /nd:networks/nd:network/nd:network-types/tet:te-topology:
+    +--rw wson-impairment-topology!
+  augment /nd:networks/nd:network/lnk:link/tet:te/tet:te-link-attributes:
+    +--rw bit-rate?         decimal64
+    +--rw frequency-slot
+    |  +--rw n    int16
+    |  +--rw m    int16
+    +--ro power?            int32
+    +--ro pmd?              decimal64
+    +--ro cd?               decimal64
+    +--ro osnr?             decimal64
+    +--ro q-factor?         decimal64
+    +--ro BER?              decimal64
+  augment /nd:networks/nd:network/nd:node/tet:te/tet:te-node-attributes:
+    +--rw wson-node
+       +--rw node-type?   identityref
+  augment /nd:networks/nd:network/nd:node/tet:te/tet:tunnel-termination-point:
+    +--rw available-operational-mode*   te-wson-types:operational-mode
+    +--rw operational-mode?             te-wson-types:operational-mode
+    +--ro available-modulation*         modulation
+    +--ro modulation-enabled?           boolean
+    +--rw modulation-type?              modulation
+    +--ro available-FEC*                FEC
+    +--ro FEC-enabled?                  boolean
+    +--rw FEC-type?                     FEC
+    +--rw FEC-code-rate?                int16
+    +--ro FEC-threshold?                decimal64
+  augment /nd:networks/nd:network/nd:node/tet:te/tet:tunnel-termination-point:
+    +--rw transponder-list* [carrier-id]
+       +--rw carrier-id    uint32
