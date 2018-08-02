@@ -1,0 +1,17 @@
+module: ietf-wson-tunnel
+  augment /te:te/te:tunnels/te:tunnel:
+    +--rw src-client-signal?   identityref
+    +--rw dst-client-signal?   identityref
+    +--rw channel-frequency?   decimal64
+    +--rw N?                   int32
+  augment /te:te/te:tunnels/te:tunnel/te:state:
+    +--ro src-client-signal?   identityref
+    +--ro dst-client-signal?   identityref
+    +--ro channel-frequency?   decimal64
+    +--ro N?                   int32
+  augment /te:te/te:globals/te:named-path-constraints/te:named-path-constraint:
+    +--rw wavelength-assignment?   identityref
+  augment /te:tunnels-rpc/te:input/te:tunnel-info/tepc:request-list:
+    +---- src-client-signal?       identityref
+    +---- dst-client-signal?       identityref
+    +---- wavelength-assignment?   identityref
