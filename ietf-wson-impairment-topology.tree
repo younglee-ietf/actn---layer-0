@@ -1,0 +1,72 @@
+module: ietf-wson-impairment-topology
+  augment /nw:networks/nw:network/nw:network-types/tet:te-topology:
+    +--rw wson-impairment-topology!
+  augment /nw:networks/nw:network/nt:link/tet:te/tet:te-link-attributes:
+    +--ro power?   int32
+  augment /nw:networks/nw:network/nt:link/tet:te/tet:te-link-attributes/tet:underlay/tet:primary-path/tet:path-element/tet:type/tet:label/tet:label-hop/tet:te-label/tet:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+       |  +--:(dwdm)
+       |  |  +--ro channel-freq?         decimal64
+       |  +--:(cwdm)
+       |     +--ro channel-wavelength?   uint32
+       +--ro bit-rate?             decimal64
+       +--ro BER?                  decimal64
+       +--ro pmd?                  decimal64
+       +--ro cd?                   decimal64
+       +--ro osnr?                 decimal64
+       +--ro q-factor?             decimal64
+  augment /nw:networks/nw:network/nt:link/tet:te/tet:te-link-attributes/tet:underlay/tet:backup-path/tet:path-element/tet:type/tet:label/tet:label-hop/tet:te-label/tet:technology:
+    +--:(wson-imp)
+       +--rw (grid-type)?
+       |  +--:(dwdm)
+       |  |  +--ro channel-freq?         decimal64
+       |  +--:(cwdm)
+       |     +--ro channel-wavelength?   uint32
+       +--ro bit-rate?             decimal64
+       +--ro BER?                  decimal64
+       +--ro pmd?                  decimal64
+       +--ro cd?                   decimal64
+       +--ro osnr?                 decimal64
+       +--ro q-factor?             decimal64
+  augment /nw:networks/tet:te/tet:templates/tet:link-template/tet:te-link-attributes/tet:underlay/tet:primary-path/tet:path-element/tet:type/tet:label/tet:label-hop/tet:te-label/tet:technology:
+    +--:(wson-imp)
+       +--rw (grid-type)?
+       |  +--:(dwdm)
+       |  |  +--ro channel-freq?         decimal64
+       |  +--:(cwdm)
+       |     +--ro channel-wavelength?   uint32
+       +--ro bit-rate?             decimal64
+       +--ro BER?                  decimal64
+       +--ro pmd?                  decimal64
+       +--ro cd?                   decimal64
+       +--ro osnr?                 decimal64
+       +--ro q-factor?             decimal64
+  augment /nw:networks/tet:te/tet:templates/tet:link-template/tet:te-link-attributes/tet:underlay/tet:backup-path/tet:path-element/tet:type/tet:label/tet:label-hop/tet:te-label/tet:technology:
+    +--:(wson-imp)
+       +--rw (grid-type)?
+       |  +--:(dwdm)
+       |  |  +--ro channel-freq?         decimal64
+       |  +--:(cwdm)
+       |     +--ro channel-wavelength?   uint32
+       +--ro bit-rate?             decimal64
+       +--ro BER?                  decimal64
+       +--ro pmd?                  decimal64
+       +--ro cd?                   decimal64
+       +--ro osnr?                 decimal64
+       +--ro q-factor?             decimal64
+  augment /nw:networks/nw:network/nw:node/tet:te/tet:te-node-attributes:
+    +--rw wson-node
+       +--rw node-type?   identityref
+  augment /nw:networks/nw:network/nw:node/tet:te/tet:tunnel-termination-point:
+    +--ro available-modulation*   modulation
+    +--ro modulation-enabled?     boolean
+    +--ro modulation-type?        modulation
+    +--ro available-FEC*          FEC
+    +--ro FEC-enabled?            boolean
+    +--ro FEC-type?               FEC
+    +--ro FEC-code-rate?          decimal64
+    +--ro FEC-threshold?          decimal64
+  augment /nw:networks/nw:network/nw:node/tet:te/tet:tunnel-termination-point:
+    +--ro transponder-list* [carrier-id]
+       +--ro carrier-id    uint32
