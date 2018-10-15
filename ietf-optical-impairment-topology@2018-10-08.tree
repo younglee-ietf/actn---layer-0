@@ -1,0 +1,90 @@
+
+module: ietf-optical-impairment-topology
+  augment /nw:networks/nw:network/nw:network-types/tet:te-topology:
+    +--rw optical-impairment-topology!
+  augment /nw:networks/nw:network/nt:link/tet:te/tet:te-link-attributes:
+    +--ro fiber-type?   fiber-type
+    +--ro power?        int32
+    +--ro pmd?          decimal64
+    +--ro cd?           decimal64
+    +--ro osnr?         decimal64
+  augment /nw:networks/nw:network/nt:link/tet:te/tet:te-link-attributes/tet:underlay/tet:primary-path/tet:path-element/tet:type/tet:label/tet:label-hop/tet:te-label/tet:technology:
+    +--:(optical-imp-topo)
+       +--rw (grid-type)?
+       |  +--:(flexi-grid)
+       |  |  +--ro central-channel-freq?   decimal64
+       |  |  +--ro slot-width?             decimal64
+       |  +--:(dwdm)
+       |  |  +--ro channel-freq?           decimal64
+       |  +--:(cwdm)
+       |     +--ro channel-wavelength?     uint32
+       +--ro bit-rate?                     decimal64
+       +--ro BER?                          decimal64
+       +--ro pmd?                          decimal64
+       +--ro cd?                           decimal64
+       +--ro osnr?                         decimal64
+       +--ro q-factor?                     decimal64
+  augment /nw:networks/nw:network/nt:link/tet:te/tet:te-link-attributes/tet:underlay/tet:backup-path/tet:path-element/tet:type/tet:label/tet:label-hop/tet:te-label/tet:technology:
+    +--:(optical-imp-topo)
+       +--rw (grid-type)?
+       |  +--:(flexi-grid)
+       |  |  +--ro central-channel-freq?   decimal64
+       |  |  +--ro slot-width?             decimal64
+       |  +--:(dwdm)
+       |  |  +--ro channel-freq?           decimal64
+       |  +--:(cwdm)
+       |     +--ro channel-wavelength?     uint32
+       +--ro bit-rate?                     decimal64
+       +--ro BER?                          decimal64
+       +--ro pmd?                          decimal64
+       +--ro cd?                           decimal64
+       +--ro osnr?                         decimal64
+       +--ro q-factor?                     decimal64
+  augment /nw:networks/tet:te/tet:templates/tet:link-template/tet:te-link-attributes/tet:underlay/tet:primary-path/tet:path-element/tet:type/tet:label/tet:label-hop/tet:te-label/tet:technology:
+    +--:(optical-imp-topo)
+       +--rw (grid-type)?
+       |  +--:(flexi-grid)
+       |  |  +--ro central-channel-freq?   decimal64
+       |  |  +--ro slot-width?             decimal64
+       |  +--:(dwdm)
+       |  |  +--ro channel-freq?           decimal64
+       |  +--:(cwdm)
+       |     +--ro channel-wavelength?     uint32
+       +--ro bit-rate?                     decimal64
+       +--ro BER?                          decimal64
+       +--ro pmd?                          decimal64
+       +--ro cd?                           decimal64
+       +--ro osnr?                         decimal64
+       +--ro q-factor?                     decimal64
+  augment /nw:networks/tet:te/tet:templates/tet:link-template/tet:te-link-attributes/tet:underlay/tet:backup-path/tet:path-element/tet:type/tet:label/tet:label-hop/tet:te-label/tet:technology:
+    +--:(optical-imp-topo)
+       +--rw (grid-type)?
+       |  +--:(flexi-grid)
+       |  |  +--ro central-channel-freq?   decimal64
+       |  |  +--ro slot-width?             decimal64
+       |  +--:(dwdm)
+       |  |  +--ro channel-freq?           decimal64
+       |  +--:(cwdm)
+       |     +--ro channel-wavelength?     uint32
+       +--ro bit-rate?                     decimal64
+       +--ro BER?                          decimal64
+       +--ro pmd?                          decimal64
+       +--ro cd?                           decimal64
+       +--ro osnr?                         decimal64
+       +--ro q-factor?                     decimal64
+  augment /nw:networks/nw:network/nw:node/tet:te/tet:tunnel-termination-point:
+    +--rw transponder-id?         uint32
+    +--ro available-modulation*   identityref
+    +--rw modulation-enabled?     boolean
+    +--rw modulation-type?        identityref
+    +--ro available-FEC*          identityref
+    +--rw FEC-enabled?            boolean
+    +--rw FEC-type?               identityref
+    +--ro FEC-code-rate?          decimal64
+    +--rw FEC-threshold?          decimal64
+    +--ro power?                  int32
+    +--ro power-min?              int32
+    +--ro power-max?              int32
+  augment /nw:networks/nw:network/nw:node/tet:te/tet:tunnel-termination-point:
+    +--ro transponder-list* [carrier-id]
+       +--ro carrier-id    uint32
