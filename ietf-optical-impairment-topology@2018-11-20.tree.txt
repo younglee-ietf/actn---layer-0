@@ -1,0 +1,53 @@
+
+module: ietf-optical-impairment-topology
+  augment /nw:networks/nw:network/nw:network-types/tet:te-topology:
+    +--rw optical-impairment-topology!
+  augment /nw:networks/nw:network/nt:link/tet:te/tet:te-link-attributes:
+    +--ro fiber-type?    fiber-type
+    +--ro span-length?   decimal64
+    +--ro power?         decimal64
+    +--ro pmd?           decimal64
+    +--ro cd?            decimal64
+    +--ro osnr?          decimal64
+    +--ro sigma?         decimal64
+  augment /nw:networks/nw:network/nt:link/tet:te/tet:te-link-attributes:
+    +--rw (grid-type)?
+    |  +--:(flexi-grid)
+    |  |  +--ro central-channel-freq?   decimal64
+    |  |  +--ro slot-width?             decimal64
+    |  +--:(dwdm)
+    |  |  +--ro channel-freq?           decimal64
+    |  +--:(cwdm)
+    |     +--ro channel-wavelength?     uint32
+    +--ro bit-rate?                     decimal64
+    +--ro BER?                          decimal64
+    +--ro power?                        decimal64
+    +--ro pmd?                          decimal64
+    +--ro cd?                           decimal64
+    +--ro osnr?                         decimal64
+    +--ro q-factor?                     decimal64
+  augment /nw:networks/nw:network/nw:node/tet:te/tet:tunnel-termination-point:
+    +--rw transponders-list* [transponder-id]
+       +--rw transponder-id                      uint32
+       +--rw (mode)?
+       |  +--:(standard_mode)
+       |  |  +--rw standard_mode?                layer0-types:standard-mode
+       |  +--:(organizational_mode)
+       |  |  +--ro available-operational-mode*   layer0-types:operational-mode
+       |  |  +--rw configured-mode?              layer0-types:configured-mode
+       |  |  +--ro organization-identifier?      layer0-types:vendor-identifier
+       |  +--:(explicit_mode)
+       |     +--ro available-modulation*         identityref
+       |     +--rw modulation-type?              identityref
+       |     +--ro available-baud-rates*         uint32
+       |     +--rw configured-baud-rate?         uint32
+       |     +--ro available-FEC*                identityref
+       |     +--rw FEC-type?                     identityref
+       |     +--ro FEC-code-rate?                decimal64
+       |     +--rw FEC-threshold?                decimal64
+       +--ro power?                              int32
+       +--ro power-min?                          int32
+       +--ro power-max?                          int32
+  augment /nw:networks/nw:network/nw:node/tet:te/tet:tunnel-termination-point:
+    +--ro transponder-list* [carrier-id]
+       +--ro carrier-id    uint32
