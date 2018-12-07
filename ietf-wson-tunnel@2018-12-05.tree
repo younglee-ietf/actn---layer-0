@@ -1,0 +1,430 @@
+
+module: ietf-wson-tunnel
+  augment /te:te/te:tunnels/te:tunnel:
+    +--rw src-client-signal?   identityref
+    +--rw dst-client-signal?   identityref
+    +--rw fec-type?            identityref
+    +--rw termination-type?    identityref
+    +--rw bit-stuffing?        boolean
+  augment /te:te/te:globals/te:named-path-constraints/te:named-path-constraint/te:te-bandwidth/te:technology:
+    +--:(wson)
+       +--rw bandwidth-type?   identityref
+  augment /te:te/te:tunnels/te:tunnel/te:te-bandwidth/te:technology:
+    +--:(wson)
+       +--rw bandwidth-type?   identityref
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:te-bandwidth/te:technology:
+    +--:(wson)
+       +--rw bandwidth-type?   identityref
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:p2p-reverse-primary-path/te:te-bandwidth/te:technology:
+    +--:(wson)
+       +--rw bandwidth-type?   identityref
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-secondary-paths/te:p2p-secondary-path/te:te-bandwidth/te:technology:
+    +--:(wson)
+       +--rw bandwidth-type?   identityref
+  augment /te:te/te:globals/te:named-path-constraints/te:named-path-constraint/te:explicit-route-objects/te:route-object-exclude-always/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--rw dwdm-n?              int16
+          |     +--:(super)
+          |        +--rw subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--rw cwdm-n?              int16
+  augment /te:te/te:globals/te:named-path-constraints/te:named-path-constraint/te:explicit-route-objects/te:route-object-include-exclude/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--rw dwdm-n?              int16
+          |     +--:(super)
+          |        +--rw subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--rw cwdm-n?              int16
+  augment /te:te/te:globals/te:named-path-constraints/te:named-path-constraint/te:path-in-segment/te:label-restrictions/te:label-restriction:
+    +--rw grid-type?   identityref
+    +--rw priority?    uint8
+  augment /te:te/te:globals/te:named-path-constraints/te:named-path-constraint/te:path-in-segment/te:label-restrictions/te:label-restriction/te:label-start/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw dwdm-n?   int16
+          +--:(cwdm)
+             +--rw cwdm-n?   int16
+  augment /te:te/te:globals/te:named-path-constraints/te:named-path-constraint/te:path-in-segment/te:label-restrictions/te:label-restriction/te:label-end/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw dwdm-n?   int16
+          +--:(cwdm)
+             +--rw cwdm-n?   int16
+  augment /te:te/te:globals/te:named-path-constraints/te:named-path-constraint/te:path-out-segment/te:label-restrictions/te:label-restriction:
+    +--rw grid-type?   identityref
+    +--rw priority?    uint8
+  augment /te:te/te:globals/te:named-path-constraints/te:named-path-constraint/te:path-out-segment/te:label-restrictions/te:label-restriction/te:label-start/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw dwdm-n?   int16
+          +--:(cwdm)
+             +--rw cwdm-n?   int16
+  augment /te:te/te:globals/te:named-path-constraints/te:named-path-constraint/te:path-out-segment/te:label-restrictions/te:label-restriction/te:label-end/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw dwdm-n?   int16
+          +--:(cwdm)
+             +--rw cwdm-n?   int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:optimizations/te:algorithm/te:metric/te:optimization-metric/te:explicit-route-exclude-objects/te:route-object-exclude-object/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--rw dwdm-n?              int16
+          |     +--:(super)
+          |        +--rw subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--rw cwdm-n?              int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:optimizations/te:algorithm/te:metric/te:optimization-metric/te:explicit-route-include-objects/te:route-object-include-object/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--rw dwdm-n?              int16
+          |     +--:(super)
+          |        +--rw subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--rw cwdm-n?              int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:explicit-route-objects/te:route-object-exclude-always/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--rw dwdm-n?              int16
+          |     +--:(super)
+          |        +--rw subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--rw cwdm-n?              int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:explicit-route-objects/te:route-object-include-exclude/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--rw dwdm-n?              int16
+          |     +--:(super)
+          |        +--rw subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--rw cwdm-n?              int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:path-in-segment/te:label-restrictions/te:label-restriction:
+    +--rw grid-type?   identityref
+    +--rw priority?    uint8
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:path-in-segment/te:label-restrictions/te:label-restriction/te:label-start/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw dwdm-n?   int16
+          +--:(cwdm)
+             +--rw cwdm-n?   int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:path-in-segment/te:label-restrictions/te:label-restriction/te:label-end/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw dwdm-n?   int16
+          +--:(cwdm)
+             +--rw cwdm-n?   int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:path-out-segment/te:label-restrictions/te:label-restriction:
+    +--rw grid-type?   identityref
+    +--rw priority?    uint8
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:path-out-segment/te:label-restrictions/te:label-restriction/te:label-start/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw dwdm-n?   int16
+          +--:(cwdm)
+             +--rw cwdm-n?   int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:path-out-segment/te:label-restrictions/te:label-restriction/te:label-end/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw dwdm-n?   int16
+          +--:(cwdm)
+             +--rw cwdm-n?   int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:state/te:computed-paths-properties/te:computed-path-properties/te:path-properties/te:path-route-objects/te:path-computed-route-object/te:state/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--ro (grid-type)?
+          +--:(dwdm)
+          |  +--ro (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--ro dwdm-n?              int16
+          |     +--:(super)
+          |        +--ro subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--ro cwdm-n?              int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:state/te:lsps/te:lsp/te:lsp-record-route-subobjects/te:record-route-subobject/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--ro (grid-type)?
+          +--:(dwdm)
+          |  +--ro (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--ro dwdm-n?              int16
+          |     +--:(super)
+          |        +--ro subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--ro cwdm-n?              int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:state/te:lsps/te:lsp/te:path-properties/te:path-route-objects/te:path-computed-route-object/te:state/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--ro (grid-type)?
+          +--:(dwdm)
+          |  +--ro (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--ro dwdm-n?              int16
+          |     +--:(super)
+          |        +--ro subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--ro cwdm-n?              int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:p2p-reverse-primary-path/te:optimizations/te:algorithm/te:metric/te:optimization-metric/te:explicit-route-exclude-objects/te:route-object-exclude-object/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--rw dwdm-n?              int16
+          |     +--:(super)
+          |        +--rw subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--rw cwdm-n?              int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:p2p-reverse-primary-path/te:optimizations/te:algorithm/te:metric/te:optimization-metric/te:explicit-route-include-objects/te:route-object-include-object/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--rw dwdm-n?              int16
+          |     +--:(super)
+          |        +--rw subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--rw cwdm-n?              int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:p2p-reverse-primary-path/te:explicit-route-objects/te:route-object-exclude-always/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--rw dwdm-n?              int16
+          |     +--:(super)
+          |        +--rw subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--rw cwdm-n?              int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:p2p-reverse-primary-path/te:explicit-route-objects/te:route-object-include-exclude/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--rw dwdm-n?              int16
+          |     +--:(super)
+          |        +--rw subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--rw cwdm-n?              int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:p2p-reverse-primary-path/te:path-in-segment/te:label-restrictions/te:label-restriction:
+    +--rw grid-type?   identityref
+    +--rw priority?    uint8
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:p2p-reverse-primary-path/te:path-in-segment/te:label-restrictions/te:label-restriction/te:label-start/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw dwdm-n?   int16
+          +--:(cwdm)
+             +--rw cwdm-n?   int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:p2p-reverse-primary-path/te:path-in-segment/te:label-restrictions/te:label-restriction/te:label-end/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw dwdm-n?   int16
+          +--:(cwdm)
+             +--rw cwdm-n?   int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:p2p-reverse-primary-path/te:path-out-segment/te:label-restrictions/te:label-restriction:
+    +--rw grid-type?   identityref
+    +--rw priority?    uint8
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:p2p-reverse-primary-path/te:path-out-segment/te:label-restrictions/te:label-restriction/te:label-start/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw dwdm-n?   int16
+          +--:(cwdm)
+             +--rw cwdm-n?   int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:p2p-reverse-primary-path/te:path-out-segment/te:label-restrictions/te:label-restriction/te:label-end/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw dwdm-n?   int16
+          +--:(cwdm)
+             +--rw cwdm-n?   int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:p2p-reverse-primary-path/te:state/te:computed-paths-properties/te:computed-path-properties/te:path-properties/te:path-route-objects/te:path-computed-route-object/te:state/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--ro (grid-type)?
+          +--:(dwdm)
+          |  +--ro (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--ro dwdm-n?              int16
+          |     +--:(super)
+          |        +--ro subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--ro cwdm-n?              int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:p2p-reverse-primary-path/te:state/te:lsps/te:lsp/te:lsp-record-route-subobjects/te:record-route-subobject/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--ro (grid-type)?
+          +--:(dwdm)
+          |  +--ro (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--ro dwdm-n?              int16
+          |     +--:(super)
+          |        +--ro subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--ro cwdm-n?              int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-primary-paths/te:p2p-primary-path/te:p2p-reverse-primary-path/te:state/te:lsps/te:lsp/te:path-properties/te:path-route-objects/te:path-computed-route-object/te:state/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--ro (grid-type)?
+          +--:(dwdm)
+          |  +--ro (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--ro dwdm-n?              int16
+          |     +--:(super)
+          |        +--ro subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--ro cwdm-n?              int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-secondary-paths/te:p2p-secondary-path/te:optimizations/te:algorithm/te:metric/te:optimization-metric/te:explicit-route-exclude-objects/te:route-object-exclude-object/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--rw dwdm-n?              int16
+          |     +--:(super)
+          |        +--rw subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--rw cwdm-n?              int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-secondary-paths/te:p2p-secondary-path/te:optimizations/te:algorithm/te:metric/te:optimization-metric/te:explicit-route-include-objects/te:route-object-include-object/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--rw dwdm-n?              int16
+          |     +--:(super)
+          |        +--rw subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--rw cwdm-n?              int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-secondary-paths/te:p2p-secondary-path/te:explicit-route-objects/te:route-object-exclude-always/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--rw dwdm-n?              int16
+          |     +--:(super)
+          |        +--rw subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--rw cwdm-n?              int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-secondary-paths/te:p2p-secondary-path/te:explicit-route-objects/te:route-object-include-exclude/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--rw dwdm-n?              int16
+          |     +--:(super)
+          |        +--rw subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--rw cwdm-n?              int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-secondary-paths/te:p2p-secondary-path/te:path-in-segment/te:label-restrictions/te:label-restriction:
+    +--rw grid-type?   identityref
+    +--rw priority?    uint8
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-secondary-paths/te:p2p-secondary-path/te:path-in-segment/te:label-restrictions/te:label-restriction/te:label-start/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw dwdm-n?   int16
+          +--:(cwdm)
+             +--rw cwdm-n?   int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-secondary-paths/te:p2p-secondary-path/te:path-in-segment/te:label-restrictions/te:label-restriction/te:label-end/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw dwdm-n?   int16
+          +--:(cwdm)
+             +--rw cwdm-n?   int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-secondary-paths/te:p2p-secondary-path/te:path-out-segment/te:label-restrictions/te:label-restriction:
+    +--rw grid-type?   identityref
+    +--rw priority?    uint8
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-secondary-paths/te:p2p-secondary-path/te:path-out-segment/te:label-restrictions/te:label-restriction/te:label-start/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw dwdm-n?   int16
+          +--:(cwdm)
+             +--rw cwdm-n?   int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-secondary-paths/te:p2p-secondary-path/te:path-out-segment/te:label-restrictions/te:label-restriction/te:label-end/te:te-label/te:technology:
+    +--:(wson)
+       +--rw (grid-type)?
+          +--:(dwdm)
+          |  +--rw dwdm-n?   int16
+          +--:(cwdm)
+             +--rw cwdm-n?   int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-secondary-paths/te:p2p-secondary-path/te:state/te:computed-paths-properties/te:computed-path-properties/te:path-properties/te:path-route-objects/te:path-computed-route-object/te:state/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--ro (grid-type)?
+          +--:(dwdm)
+          |  +--ro (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--ro dwdm-n?              int16
+          |     +--:(super)
+          |        +--ro subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--ro cwdm-n?              int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-secondary-paths/te:p2p-secondary-path/te:state/te:lsps/te:lsp/te:lsp-record-route-subobjects/te:record-route-subobject/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--ro (grid-type)?
+          +--:(dwdm)
+          |  +--ro (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--ro dwdm-n?              int16
+          |     +--:(super)
+          |        +--ro subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--ro cwdm-n?              int16
+  augment /te:te/te:tunnels/te:tunnel/te:p2p-secondary-paths/te:p2p-secondary-path/te:state/te:lsps/te:lsp/te:path-properties/te:path-route-objects/te:path-computed-route-object/te:state/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--ro (grid-type)?
+          +--:(dwdm)
+          |  +--ro (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--ro dwdm-n?              int16
+          |     +--:(super)
+          |        +--ro subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--ro cwdm-n?              int16
+  augment /te:te/te:lsps-state/te:lsp/te:lsp-record-route-subobjects/te:record-route-subobject/te:type/te:label/te:label-hop/te:te-label/te:technology:
+    +--:(wson)
+       +--ro (grid-type)?
+          +--:(dwdm)
+          |  +--ro (single-or-super-channel)?
+          |     +--:(single)
+          |     |  +--ro dwdm-n?              int16
+          |     +--:(super)
+          |        +--ro subcarrier-dwdm-n*   int16
+          +--:(cwdm)
+             +--ro cwdm-n?              int16
+  augment /te:tunnels-rpc/te:input/te:tunnel-info/tepc:path-request:
+    +---- src-client-signal?       identityref
+    +---- dst-client-signal?       identityref
+    +---- fec-type?                identityref
+    +---- termination-type?        identityref
+    +---- bit-stuffing?            boolean
+    +---- wavelength-assignment?   identityref
