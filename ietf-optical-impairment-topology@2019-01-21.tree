@@ -1,0 +1,61 @@
+
+module: ietf-optical-impairment-topology
+  augment /nw:networks/nw:network/nw:network-types/tet:te-topology:
+    +--rw optical-impairment-topology!
+  augment /nw:networks/nw:network/nt:link/tet:te/tet:te-link-attributes:
+    +--rw OMS-attributes
+       +--rw generalized-snr?    decimal64
+       +--rw input-power?        decimal64
+       +--rw current-channels* [N]
+       |  +--ro N                      int16
+       |  +--ro M?                     int16
+       |  +--ro channel-delta-power?   decimal64
+       +--rw OMS-elements* [elt-index]
+          +--rw elt-index    uint16
+          +--rw uid?         string
+          +--rw type         identityref
+          +--rw element
+             +--rw (element)?
+                +--:(amplifier)
+                |  +--rw amplifier
+                |     +--rw type_variety    string
+                |     +--rw operational
+                |        +--rw gain-target    decimal64
+                |        +--rw tilt-target    decimal64
+                |        +--rw out-voa        decimal64
+                +--:(fiber)
+                |  +--rw fiber
+                |     +--rw type_variety    string
+                |     +--rw length          decimal64
+                |     +--rw loss_coef       decimal64
+                |     +--rw pmd?            decimal64
+                |     +--rw conn_in?        decimal64
+                |     +--rw conn_out?       decimal64
+                +--:(fused)
+                   +--rw fused
+                      +--rw loss?   decimal64
+  augment /nw:networks/nw:network/nw:node/tet:te/tet:tunnel-termination-point:
+    +--rw transponders-list* [transponder-id]
+       +--rw transponder-id                      uint32
+       +--rw (mode)?
+       |  +--:(G.682.2)
+       |  |  +--rw G.682.2?                      layer0-types:standard-mode
+       |  +--:(organizational_mode)
+       |  |  +--ro available-operational-mode*   layer0-types:operational-mode
+       |  |  +--rw configured-mode?              layer0-types:configured-mode
+       |  |  +--ro organization-identifier?      layer0-types:vendor-identifier
+       |  +--:(explicit_mode)
+       |     +--ro available-modulation*         identityref
+       |     +--rw modulation-type?              identityref
+       |     +--ro available-baud-rates*         uint32
+       |     +--rw configured-baud-rate?         uint32
+       |     +--ro available-FEC*                identityref
+       |     +--rw FEC-type?                     identityref
+       |     +--ro FEC-code-rate?                decimal64
+       |     +--rw FEC-threshold?                decimal64
+       +--ro power?                              int32
+       +--ro power-min?                          int32
+       +--ro power-max?                          int32
+  augment /nw:networks/nw:network/nw:node/tet:te/tet:tunnel-termination-point:
+    +--ro transponder-list* [carrier-id]
+       +--ro carrier-id    uint32
